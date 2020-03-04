@@ -1,1 +1,2 @@
-# TranSlot_00
+# hello-world
+Hello world new project template.
