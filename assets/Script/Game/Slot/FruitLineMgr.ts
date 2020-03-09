@@ -33,22 +33,40 @@ export default class NewClass extends cc.Component {
      * 
      * @param time 重複次數
      */
-    private actScroll(time:number):void {
+    private actScroll(time: number): void {
         for (let i = 0, max = this.fruitNodes.length; i < max; i++) {
             let node = this.fruitNodes[i];
+            let posY = this._limitY;
 
             cc.tween(node)
-                .delay(i*0.1)
-                .to(0.5, { position: cc.v2(0, this._limitY) })
+                .delay(i * 0.2)
+                .to(0.3, { position: cc.v2(0, posY) })
                 .call(function () {
                     node.y = this._resetY;
-                    
-                    if(i === max-1 && time - 1 > 0) {
+
+                    if (i === max - 1 && time - 1 > 0) {
                         time -= 1;
                         this.actScroll(time);
+                    } else if (i === max - 1 && time === 1) {
+                        this.lastRoll();
                     }
-                    
+                    cc.log(time);
+                }.bind(this))
+                .start();
+        }
+    }
 
+    private lastRoll(): void {
+        let max = 3;    //預設前三個
+        let stopPosY = [-160, 0, 160];
+        
+        for (let i = 0; i < max; i++) {
+            let node = this.fruitNodes[i];
+            cc.tween(node)
+                .delay(i * 0.12)
+                .to(0.5, { position: cc.v2(0, stopPosY[i]) })
+                .call(function () {
+                    // node.y = this._resetY;
                 }.bind(this))
                 .start();
         }
