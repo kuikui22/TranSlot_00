@@ -1,4 +1,4 @@
 //場景
-interface Scene {
+interface IScene {
     loadScene(): void;
 }
