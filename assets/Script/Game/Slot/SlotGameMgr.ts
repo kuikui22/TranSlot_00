@@ -1,3 +1,6 @@
+import CommonFunc from "./CommonFunc";
+import { SlotEventConst } from "./SlotEventConst";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -23,6 +26,7 @@ export default class SlotGameMgr extends cc.Component {
 
     private onClickStartBtn():void {
         console.log("start...");
+        CommonFunc.getEventNode().emit(SlotEventConst.START_SCROLL);
     }
 
     // update (dt) {}
