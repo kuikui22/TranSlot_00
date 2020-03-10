@@ -10,7 +10,7 @@ export default class NewClass extends cc.Component {
     fruitNodes: cc.Node[] = [];
 
     _limitY = -320;
-    _resetY = 480;
+    _resetY = 320;
     _repeatTime = 3;
 
     onLoad() {
@@ -38,16 +38,17 @@ export default class NewClass extends cc.Component {
             let node = this.fruitNodes[i];
             let posY = this._limitY;
 
+            //
             cc.tween(node)
-                .delay(i * 0.2)
+                .delay(i * 0.12)
                 .to(0.3, { position: cc.v2(0, posY) })
                 .call(function () {
                     node.y = this._resetY;
 
-                    if (i === max - 1 && time - 1 > 0) {
+                    if (i === max - 3 && time > 0) {
                         time -= 1;
                         this.actScroll(time);
-                    } else if (i === max - 1 && time === 1) {
+                    } else if (i === max - 3 && time <= 0) {
                         this.lastRoll();
                     }
                     cc.log(time);
@@ -64,7 +65,7 @@ export default class NewClass extends cc.Component {
             let node = this.fruitNodes[i];
             cc.tween(node)
                 .delay(i * 0.12)
-                .to(0.5, { position: cc.v2(0, stopPosY[i]) })
+                .to(0.3, { position: cc.v2(0, stopPosY[i]) })
                 .call(function () {
                     // node.y = this._resetY;
                 }.bind(this))
