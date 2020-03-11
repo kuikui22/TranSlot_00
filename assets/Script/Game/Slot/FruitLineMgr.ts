@@ -13,6 +13,7 @@ export default class NewClass extends cc.Component {
     _resetY = 320;
     _repeatTime = 3;
     _iconCount = 11;
+    _iconDir = "fruit/";
 
     onLoad() {
         this.addEvents();
@@ -28,7 +29,6 @@ export default class NewClass extends cc.Component {
 
     private scrollToNumber(): void {
         this.actScroll(this._repeatTime);
-        this.randomIcon();
     }
 
     /**
@@ -46,7 +46,7 @@ export default class NewClass extends cc.Component {
                 .to(0.3, { position: cc.v2(0, posY) })
                 .call(function () {
                     node.y = this._resetY;
-                    node.getComponent(cc.Sprite).spriteFrame = cc.loader.getRes("fruit/"+ this.randomIcon(), cc.SpriteFrame);
+                    this.changeIcon(node, this.randomIcon());
 
                     if (i === max - 3 && time > 0) {
                         time -= 1;
@@ -63,9 +63,10 @@ export default class NewClass extends cc.Component {
     private lastRoll(): void {
         let max = 3;    //預設前三個
         let stopPosY = [-160, 0, 160];
-        
+
         for (let i = 0; i < max; i++) {
             let node = this.fruitNodes[i];
+            this.changeIcon(node, "fruit_1");
             cc.tween(node)
                 .delay(i * 0.12)
                 .to(0.3, { position: cc.v2(0, stopPosY[i]) })
@@ -76,10 +77,22 @@ export default class NewClass extends cc.Component {
         }
     }
 
-    private randomIcon() {
+    /**
+     * 隨機取一張圖片
+     * @returns 圖片名
+     */
+    private randomIcon(): string {
         let number = Math.floor(Math.random() * this._iconCount) + 1;
-        cc.log("fruit_" + number);
         return "fruit_" + number;
+    }
+
+    /**
+     * 更換節點圖片
+     * @param node 更換圖片的節點
+     * @param icon_name 圖片資源名
+     */
+    private changeIcon(node: cc.Node, icon_name: string): void {
+        node.getComponent(cc.Sprite).spriteFrame = cc.loader.getRes(this._iconDir + icon_name, cc.SpriteFrame);
     }
 
     //
