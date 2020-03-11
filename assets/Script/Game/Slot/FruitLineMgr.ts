@@ -12,6 +12,7 @@ export default class NewClass extends cc.Component {
     _limitY = -320;
     _resetY = 320;
     _repeatTime = 3;
+    _iconCount = 11;
 
     onLoad() {
         this.addEvents();
@@ -27,6 +28,7 @@ export default class NewClass extends cc.Component {
 
     private scrollToNumber(): void {
         this.actScroll(this._repeatTime);
+        this.randomIcon();
     }
 
     /**
@@ -44,6 +46,7 @@ export default class NewClass extends cc.Component {
                 .to(0.3, { position: cc.v2(0, posY) })
                 .call(function () {
                     node.y = this._resetY;
+                    node.getComponent(cc.Sprite).spriteFrame = cc.loader.getRes("fruit/"+ this.randomIcon(), cc.SpriteFrame);
 
                     if (i === max - 3 && time > 0) {
                         time -= 1;
@@ -71,6 +74,12 @@ export default class NewClass extends cc.Component {
                 }.bind(this))
                 .start();
         }
+    }
+
+    private randomIcon() {
+        let number = Math.floor(Math.random() * this._iconCount) + 1;
+        cc.log("fruit_" + number);
+        return "fruit_" + number;
     }
 
     //
