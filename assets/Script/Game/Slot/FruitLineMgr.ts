@@ -9,11 +9,12 @@ export default class NewClass extends cc.Component {
     @property(cc.Node)
     fruitNodes: cc.Node[] = [];
 
-    _limitY = -320;
-    _resetY = 320;
-    _repeatTime = 3;
-    _iconCount = 11;
-    _iconDir = "fruit/";
+    _limitY: number = -320;
+    _resetY: number = 320;
+    _repeatTime: number = 3;
+    _iconCount: number = 11;
+    _iconDir: string = "fruit/";
+    _resultArr: Array<number> = [];
 
     onLoad() {
         this.addEvents();
@@ -25,6 +26,15 @@ export default class NewClass extends cc.Component {
 
     private addEvents(): void {
         CommonFunc.getEventNode().on(SlotEventConst.START_SCROLL, this.scrollToNumber, this);
+    }
+
+    public setResult(result_arr:Array<number>):void {
+        if(!result_arr || result_arr.length === 0) {
+            cc.log("the result arr isn't vaild");
+            return;
+        }
+
+        this._resultArr = result_arr;
     }
 
     private scrollToNumber(): void {
@@ -66,7 +76,7 @@ export default class NewClass extends cc.Component {
 
         for (let i = 0; i < max; i++) {
             let node = this.fruitNodes[i];
-            this.changeIcon(node, "fruit_1");
+            this.changeIcon(node, "fruit_" + this._resultArr[i]);
             cc.tween(node)
                 .delay(i * 0.12)
                 .to(0.3, { position: cc.v2(0, stopPosY[i]) })
