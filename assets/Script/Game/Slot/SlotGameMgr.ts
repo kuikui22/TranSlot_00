@@ -1,5 +1,6 @@
 import CommonFunc from "./CommonFunc";
 import { SlotEventConst } from "./SlotEventConst";
+import { LineConst } from "./SlotConst";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,8 +13,8 @@ export default class SlotGameMgr extends cc.Component {
     @property(cc.Node)
     fruitLines: cc.Node[] = [];
 
-    // @property
-    // text: string = 'hello';
+    @property(cc.Node)
+    lines: cc.Node[] = [];
 
     _maxNumber = 11;
 
@@ -31,7 +32,7 @@ export default class SlotGameMgr extends cc.Component {
     }
 
     start() {
-
+        
     }
 
     loadingRes() {
@@ -84,6 +85,47 @@ export default class SlotGameMgr extends cc.Component {
         let number = Math.floor(Math.random() * this._maxNumber) + 1;
 
         return number;
+    }
+
+    private hasLine(arr): void {
+        // 每個陣列的第一個
+        if(arr[0][0] === arr[1][0] && arr[1][0] === arr[2][0]) {
+            this.showLine(LineConst.Line1);
+        }
+
+        // 每個陣列的第二個
+        if(arr[0][1] === arr[1][1] && arr[1][1] === arr[2][1]) {
+            this.showLine(LineConst.Line2);
+        }
+
+        // 每個陣列的第三個
+        if(arr[0][2] === arr[1][2] && arr[1][2] === arr[2][2]) {
+            this.showLine(LineConst.Line3);
+        }
+
+        // 陣列的第一個,第二個,第三個
+        if(arr[0][0] === arr[1][1] && arr[1][1] === arr[2][2]) {
+            this.showLine(LineConst.Line4);
+        }
+
+        // 陣列的第三個,第二個,第一個
+        if(arr[0][2] === arr[1][1] && arr[1][1] === arr[2][0]) {
+            this.showLine(LineConst.Line5);
+        }
+    }
+
+    private showLine(line: LineConst): void {
+        let node = this.lines[line - 1];
+        node.active = true;
+        
+        this.line1.runAction(
+            cc.repeatForever(
+                cc.sequence(
+                    cc.fadeIn(0.5),
+                    cc.fadeOut(0.5)
+                )
+            )
+        );
     }
 
     // update (dt) {}
